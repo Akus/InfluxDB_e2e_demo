@@ -28,3 +28,25 @@ terraform-infra/
 │   ├── versions.tf          # Terraform version constraints
 │── terraform.tfvars         # Global variables (optional)
 │── README.md                # Documentation
+
+
+## Terraform setup
+
+### Create folder structure
+terraform-infra\scripts\setup_terraform_folder_structure.ps1
+
+### Download and install Terraform version
+https://releases.hashicorp.com/terraform/1.6.0/
+
+### Create S3 bucket for Terraform state files
+akos-influx-eks-terraform-state-bucket
+
+### Create DynamoDB table for Terraform state lock
+table name: terraform-lock
+partition key: LockID
+
+### deploy networking module into the development environment
+cd "A:\Documents\repos\InfluxDB_e2e_demo\terraform-infra"
+terraform init
+terraform plan -out=tfplan
+terraform apply "tfplan"
