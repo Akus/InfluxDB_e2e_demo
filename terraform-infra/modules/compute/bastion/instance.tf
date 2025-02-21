@@ -10,7 +10,7 @@ module "ec2_public" {
   name                   = "${local.name}-BastionHost"
   ami                    = data.aws_ami.amzlinux2.id
   instance_type          = var.instance_type
-  key_name               = var.instance_keypair
+  key_name               = local.instance_keypair
   subnet_id              = var.public_subnets[0]
   tags = local.common_tags
 }

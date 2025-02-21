@@ -10,12 +10,6 @@ variable "vpc_cidr" {
   default     = "10.0.0.0/16"
 }
 
-variable "environment" {
-  description = "Environment"
-  type        = string
-  default     = "development"
-}
-
 variable "vpc_private_subnets" {
   description = "VPC Private Subnets"
   type        = list(string)
@@ -32,11 +26,6 @@ variable "cluster_name" {
   description = "Cluster name"
   type        = string
   default     = "eks-cluster"
-}
-
-variable "business_division" {
-  description = "The business division"
-  type        = string
 }
 
 variable "instance_type" {
