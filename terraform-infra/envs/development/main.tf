@@ -8,11 +8,18 @@ module "networking" {
   cluster_name         = var.cluster_name
   }
 
-# module "compute" {
-#   source      = "../../modules/compute"
-#   environment = var.environment
-#   vpc_id      = module.networking.vpc_id
-# }
+module "compute_bastion" {
+  depends_on = [ module.networking ]
+  source               = "../../modules/compute/bastion"
+  instance_type = var.instance_type
+  instance_keypair     = var.instance_keypair
+  business_division    = var.business_division
+  environment          = var.environment
+  vpc_id               = module.networking.vpc_id
+  public_subnets       = module.networking.public_subnets
+}
+
+# module "compute_eks" {}
 
 # module "storage" {
 #   source      = "../../modules/storage"
