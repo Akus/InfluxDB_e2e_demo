@@ -6,9 +6,16 @@ global:
 dex:
   enabled: false
 
+
 server:
+  # certificate:
+  #   enabled: true
+  #   domain: ae7990a5e7b8f493cbd1c5fc724502e0-2061156755.eu-central-1.elb.amazonaws.com
+  
+  # Or use your own certificates
   extraArgs:
-    - --insecure # Remove this in production
+     - --insecure  # Remove this line in production
+
   
   # Configure ingress if needed
   # ingress:
