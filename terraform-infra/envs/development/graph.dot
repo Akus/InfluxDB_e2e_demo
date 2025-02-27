@@ -1,0 +1,224 @@
+digraph G {
+  rankdir = "RL";
+  node [shape = rect, fontname = "sans-serif"];
+  subgraph "cluster_module.compute_bastion" {
+    label = "module.compute_bastion"
+    fontname = "sans-serif"
+    "module.compute_bastion.data.aws_ami.amzlinux2" [label="data.aws_ami.amzlinux2"];
+    "module.compute_bastion.aws_eip.bastion_eip" [label="aws_eip.bastion_eip"];
+  }
+  subgraph "cluster_module.compute_bastion.module.ec2_public" {
+    label = "module.compute_bastion.module.ec2_public"
+    fontname = "sans-serif"
+    "module.compute_bastion.module.ec2_public.data.aws_partition.current" [label="data.aws_partition.current"];
+    "module.compute_bastion.module.ec2_public.aws_instance.this" [label="aws_instance.this"];
+  }
+  subgraph "cluster_module.compute_bastion.module.public_bastion_sg" {
+    label = "module.compute_bastion.module.public_bastion_sg"
+    fontname = "sans-serif"
+    "module.compute_bastion.module.public_bastion_sg.aws_security_group.this_name_prefix" [label="aws_security_group.this_name_prefix"];
+    "module.compute_bastion.module.public_bastion_sg.aws_security_group_rule.egress_rules" [label="aws_security_group_rule.egress_rules"];
+    "module.compute_bastion.module.public_bastion_sg.aws_security_group_rule.ingress_rules" [label="aws_security_group_rule.ingress_rules"];
+  }
+  subgraph "cluster_module.networking" {
+    label = "module.networking"
+    fontname = "sans-serif"
+    "module.networking.data.aws_availability_zones.available" [label="data.aws_availability_zones.available"];
+  }
+  subgraph "cluster_module.networking.module.vpc" {
+    label = "module.networking.module.vpc"
+    fontname = "sans-serif"
+    "module.networking.module.vpc.data.aws_iam_policy_document.flow_log_cloudwatch_assume_role" [label="data.aws_iam_policy_document.flow_log_cloudwatch_assume_role"];
+    "module.networking.module.vpc.data.aws_iam_policy_document.vpc_flow_log_cloudwatch" [label="data.aws_iam_policy_document.vpc_flow_log_cloudwatch"];
+    "module.networking.module.vpc.aws_cloudwatch_log_group.flow_log" [label="aws_cloudwatch_log_group.flow_log"];
+    "module.networking.module.vpc.aws_customer_gateway.this" [label="aws_customer_gateway.this"];
+    "module.networking.module.vpc.aws_db_subnet_group.database" [label="aws_db_subnet_group.database"];
+    "module.networking.module.vpc.aws_default_network_acl.this" [label="aws_default_network_acl.this"];
+    "module.networking.module.vpc.aws_default_route_table.default" [label="aws_default_route_table.default"];
+    "module.networking.module.vpc.aws_default_security_group.this" [label="aws_default_security_group.this"];
+    "module.networking.module.vpc.aws_default_vpc.this" [label="aws_default_vpc.this"];
+    "module.networking.module.vpc.aws_egress_only_internet_gateway.this" [label="aws_egress_only_internet_gateway.this"];
+    "module.networking.module.vpc.aws_eip.nat" [label="aws_eip.nat"];
+    "module.networking.module.vpc.aws_elasticache_subnet_group.elasticache" [label="aws_elasticache_subnet_group.elasticache"];
+    "module.networking.module.vpc.aws_flow_log.this" [label="aws_flow_log.this"];
+    "module.networking.module.vpc.aws_iam_policy.vpc_flow_log_cloudwatch" [label="aws_iam_policy.vpc_flow_log_cloudwatch"];
+    "module.networking.module.vpc.aws_iam_role.vpc_flow_log_cloudwatch" [label="aws_iam_role.vpc_flow_log_cloudwatch"];
+    "module.networking.module.vpc.aws_iam_role_policy_attachment.vpc_flow_log_cloudwatch" [label="aws_iam_role_policy_attachment.vpc_flow_log_cloudwatch"];
+    "module.networking.module.vpc.aws_internet_gateway.this" [label="aws_internet_gateway.this"];
+    "module.networking.module.vpc.aws_nat_gateway.this" [label="aws_nat_gateway.this"];
+    "module.networking.module.vpc.aws_network_acl.database" [label="aws_network_acl.database"];
+    "module.networking.module.vpc.aws_network_acl.elasticache" [label="aws_network_acl.elasticache"];
+    "module.networking.module.vpc.aws_network_acl.intra" [label="aws_network_acl.intra"];
+    "module.networking.module.vpc.aws_network_acl.outpost" [label="aws_network_acl.outpost"];
+    "module.networking.module.vpc.aws_network_acl.private" [label="aws_network_acl.private"];
+    "module.networking.module.vpc.aws_network_acl.public" [label="aws_network_acl.public"];
+    "module.networking.module.vpc.aws_network_acl.redshift" [label="aws_network_acl.redshift"];
+    "module.networking.module.vpc.aws_network_acl_rule.database_inbound" [label="aws_network_acl_rule.database_inbound"];
+    "module.networking.module.vpc.aws_network_acl_rule.database_outbound" [label="aws_network_acl_rule.database_outbound"];
+    "module.networking.module.vpc.aws_network_acl_rule.elasticache_inbound" [label="aws_network_acl_rule.elasticache_inbound"];
+    "module.networking.module.vpc.aws_network_acl_rule.elasticache_outbound" [label="aws_network_acl_rule.elasticache_outbound"];
+    "module.networking.module.vpc.aws_network_acl_rule.intra_inbound" [label="aws_network_acl_rule.intra_inbound"];
+    "module.networking.module.vpc.aws_network_acl_rule.intra_outbound" [label="aws_network_acl_rule.intra_outbound"];
+    "module.networking.module.vpc.aws_network_acl_rule.outpost_inbound" [label="aws_network_acl_rule.outpost_inbound"];
+    "module.networking.module.vpc.aws_network_acl_rule.outpost_outbound" [label="aws_network_acl_rule.outpost_outbound"];
+    "module.networking.module.vpc.aws_network_acl_rule.private_inbound" [label="aws_network_acl_rule.private_inbound"];
+    "module.networking.module.vpc.aws_network_acl_rule.private_outbound" [label="aws_network_acl_rule.private_outbound"];
+    "module.networking.module.vpc.aws_network_acl_rule.public_inbound" [label="aws_network_acl_rule.public_inbound"];
+    "module.networking.module.vpc.aws_network_acl_rule.public_outbound" [label="aws_network_acl_rule.public_outbound"];
+    "module.networking.module.vpc.aws_network_acl_rule.redshift_inbound" [label="aws_network_acl_rule.redshift_inbound"];
+    "module.networking.module.vpc.aws_network_acl_rule.redshift_outbound" [label="aws_network_acl_rule.redshift_outbound"];
+    "module.networking.module.vpc.aws_redshift_subnet_group.redshift" [label="aws_redshift_subnet_group.redshift"];
+    "module.networking.module.vpc.aws_route.database_dns64_nat_gateway" [label="aws_route.database_dns64_nat_gateway"];
+    "module.networking.module.vpc.aws_route.database_internet_gateway" [label="aws_route.database_internet_gateway"];
+    "module.networking.module.vpc.aws_route.database_ipv6_egress" [label="aws_route.database_ipv6_egress"];
+    "module.networking.module.vpc.aws_route.database_nat_gateway" [label="aws_route.database_nat_gateway"];
+    "module.networking.module.vpc.aws_route.private_dns64_nat_gateway" [label="aws_route.private_dns64_nat_gateway"];
+    "module.networking.module.vpc.aws_route.private_ipv6_egress" [label="aws_route.private_ipv6_egress"];
+    "module.networking.module.vpc.aws_route.private_nat_gateway" [label="aws_route.private_nat_gateway"];
+    "module.networking.module.vpc.aws_route.public_internet_gateway" [label="aws_route.public_internet_gateway"];
+    "module.networking.module.vpc.aws_route.public_internet_gateway_ipv6" [label="aws_route.public_internet_gateway_ipv6"];
+    "module.networking.module.vpc.aws_route_table.database" [label="aws_route_table.database"];
+    "module.networking.module.vpc.aws_route_table.elasticache" [label="aws_route_table.elasticache"];
+    "module.networking.module.vpc.aws_route_table.intra" [label="aws_route_table.intra"];
+    "module.networking.module.vpc.aws_route_table.private" [label="aws_route_table.private"];
+    "module.networking.module.vpc.aws_route_table.public" [label="aws_route_table.public"];
+    "module.networking.module.vpc.aws_route_table.redshift" [label="aws_route_table.redshift"];
+    "module.networking.module.vpc.aws_route_table_association.database" [label="aws_route_table_association.database"];
+    "module.networking.module.vpc.aws_route_table_association.elasticache" [label="aws_route_table_association.elasticache"];
+    "module.networking.module.vpc.aws_route_table_association.intra" [label="aws_route_table_association.intra"];
+    "module.networking.module.vpc.aws_route_table_association.outpost" [label="aws_route_table_association.outpost"];
+    "module.networking.module.vpc.aws_route_table_association.private" [label="aws_route_table_association.private"];
+    "module.networking.module.vpc.aws_route_table_association.public" [label="aws_route_table_association.public"];
+    "module.networking.module.vpc.aws_route_table_association.redshift" [label="aws_route_table_association.redshift"];
+    "module.networking.module.vpc.aws_route_table_association.redshift_public" [label="aws_route_table_association.redshift_public"];
+    "module.networking.module.vpc.aws_subnet.database" [label="aws_subnet.database"];
+    "module.networking.module.vpc.aws_subnet.elasticache" [label="aws_subnet.elasticache"];
+    "module.networking.module.vpc.aws_subnet.intra" [label="aws_subnet.intra"];
+    "module.networking.module.vpc.aws_subnet.outpost" [label="aws_subnet.outpost"];
+    "module.networking.module.vpc.aws_subnet.private" [label="aws_subnet.private"];
+    "module.networking.module.vpc.aws_subnet.public" [label="aws_subnet.public"];
+    "module.networking.module.vpc.aws_subnet.redshift" [label="aws_subnet.redshift"];
+    "module.networking.module.vpc.aws_vpc.this" [label="aws_vpc.this"];
+    "module.networking.module.vpc.aws_vpc_dhcp_options.this" [label="aws_vpc_dhcp_options.this"];
+    "module.networking.module.vpc.aws_vpc_dhcp_options_association.this" [label="aws_vpc_dhcp_options_association.this"];
+    "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this" [label="aws_vpc_ipv4_cidr_block_association.this"];
+    "module.networking.module.vpc.aws_vpn_gateway.this" [label="aws_vpn_gateway.this"];
+    "module.networking.module.vpc.aws_vpn_gateway_attachment.this" [label="aws_vpn_gateway_attachment.this"];
+    "module.networking.module.vpc.aws_vpn_gateway_route_propagation.intra" [label="aws_vpn_gateway_route_propagation.intra"];
+    "module.networking.module.vpc.aws_vpn_gateway_route_propagation.private" [label="aws_vpn_gateway_route_propagation.private"];
+    "module.networking.module.vpc.aws_vpn_gateway_route_propagation.public" [label="aws_vpn_gateway_route_propagation.public"];
+  }
+  "module.networking.module.vpc.aws_cloudwatch_log_group.flow_log" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_db_subnet_group.database" -> "module.networking.module.vpc.aws_subnet.database";
+  "module.networking.module.vpc.aws_default_network_acl.this" -> "module.networking.module.vpc.aws_vpc.this";
+  "module.networking.module.vpc.aws_default_route_table.default" -> "module.networking.module.vpc.aws_vpc.this";
+  "module.networking.module.vpc.aws_default_security_group.this" -> "module.networking.module.vpc.aws_vpc.this";
+  "module.networking.module.vpc.aws_egress_only_internet_gateway.this" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_eip.nat" -> "module.networking.data.aws_availability_zones.available";
+  "module.networking.module.vpc.aws_eip.nat" -> "module.networking.module.vpc.aws_internet_gateway.this";
+  "module.networking.module.vpc.aws_elasticache_subnet_group.elasticache" -> "module.networking.module.vpc.aws_subnet.elasticache";
+  "module.networking.module.vpc.aws_flow_log.this" -> "module.networking.module.vpc.aws_cloudwatch_log_group.flow_log";
+  "module.networking.module.vpc.aws_flow_log.this" -> "module.networking.module.vpc.aws_iam_role.vpc_flow_log_cloudwatch";
+  "module.networking.module.vpc.aws_iam_policy.vpc_flow_log_cloudwatch" -> "module.networking.module.vpc.data.aws_iam_policy_document.vpc_flow_log_cloudwatch";
+  "module.networking.module.vpc.aws_iam_role.vpc_flow_log_cloudwatch" -> "module.networking.module.vpc.data.aws_iam_policy_document.flow_log_cloudwatch_assume_role";
+  "module.networking.module.vpc.aws_iam_role_policy_attachment.vpc_flow_log_cloudwatch" -> "module.networking.module.vpc.aws_iam_policy.vpc_flow_log_cloudwatch";
+  "module.networking.module.vpc.aws_iam_role_policy_attachment.vpc_flow_log_cloudwatch" -> "module.networking.module.vpc.aws_iam_role.vpc_flow_log_cloudwatch";
+  "module.networking.module.vpc.aws_internet_gateway.this" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_nat_gateway.this" -> "module.networking.module.vpc.aws_eip.nat";
+  "module.networking.module.vpc.aws_nat_gateway.this" -> "module.networking.module.vpc.aws_subnet.public";
+  "module.networking.module.vpc.aws_network_acl.database" -> "module.networking.module.vpc.aws_subnet.database";
+  "module.networking.module.vpc.aws_network_acl.elasticache" -> "module.networking.module.vpc.aws_subnet.elasticache";
+  "module.networking.module.vpc.aws_network_acl.intra" -> "module.networking.module.vpc.aws_subnet.intra";
+  "module.networking.module.vpc.aws_network_acl.outpost" -> "module.networking.module.vpc.aws_subnet.outpost";
+  "module.networking.module.vpc.aws_network_acl.private" -> "module.networking.module.vpc.aws_subnet.private";
+  "module.networking.module.vpc.aws_network_acl.public" -> "module.networking.module.vpc.aws_subnet.public";
+  "module.networking.module.vpc.aws_network_acl.redshift" -> "module.networking.module.vpc.aws_subnet.redshift";
+  "module.networking.module.vpc.aws_network_acl_rule.database_inbound" -> "module.networking.module.vpc.aws_network_acl.database";
+  "module.networking.module.vpc.aws_network_acl_rule.database_outbound" -> "module.networking.module.vpc.aws_network_acl.database";
+  "module.networking.module.vpc.aws_network_acl_rule.elasticache_inbound" -> "module.networking.module.vpc.aws_network_acl.elasticache";
+  "module.networking.module.vpc.aws_network_acl_rule.elasticache_outbound" -> "module.networking.module.vpc.aws_network_acl.elasticache";
+  "module.networking.module.vpc.aws_network_acl_rule.intra_inbound" -> "module.networking.module.vpc.aws_network_acl.intra";
+  "module.networking.module.vpc.aws_network_acl_rule.intra_outbound" -> "module.networking.module.vpc.aws_network_acl.intra";
+  "module.networking.module.vpc.aws_network_acl_rule.outpost_inbound" -> "module.networking.module.vpc.aws_network_acl.outpost";
+  "module.networking.module.vpc.aws_network_acl_rule.outpost_outbound" -> "module.networking.module.vpc.aws_network_acl.outpost";
+  "module.networking.module.vpc.aws_network_acl_rule.private_inbound" -> "module.networking.module.vpc.aws_network_acl.private";
+  "module.networking.module.vpc.aws_network_acl_rule.private_outbound" -> "module.networking.module.vpc.aws_network_acl.private";
+  "module.networking.module.vpc.aws_network_acl_rule.public_inbound" -> "module.networking.module.vpc.aws_network_acl.public";
+  "module.networking.module.vpc.aws_network_acl_rule.public_outbound" -> "module.networking.module.vpc.aws_network_acl.public";
+  "module.networking.module.vpc.aws_network_acl_rule.redshift_inbound" -> "module.networking.module.vpc.aws_network_acl.redshift";
+  "module.networking.module.vpc.aws_network_acl_rule.redshift_outbound" -> "module.networking.module.vpc.aws_network_acl.redshift";
+  "module.networking.module.vpc.aws_redshift_subnet_group.redshift" -> "module.networking.module.vpc.aws_subnet.redshift";
+  "module.networking.module.vpc.aws_route.database_dns64_nat_gateway" -> "module.networking.module.vpc.aws_nat_gateway.this";
+  "module.networking.module.vpc.aws_route.database_dns64_nat_gateway" -> "module.networking.module.vpc.aws_route_table.database";
+  "module.networking.module.vpc.aws_route.database_internet_gateway" -> "module.networking.module.vpc.aws_internet_gateway.this";
+  "module.networking.module.vpc.aws_route.database_internet_gateway" -> "module.networking.module.vpc.aws_route_table.database";
+  "module.networking.module.vpc.aws_route.database_ipv6_egress" -> "module.networking.module.vpc.aws_egress_only_internet_gateway.this";
+  "module.networking.module.vpc.aws_route.database_ipv6_egress" -> "module.networking.module.vpc.aws_route_table.database";
+  "module.networking.module.vpc.aws_route.database_nat_gateway" -> "module.networking.module.vpc.aws_nat_gateway.this";
+  "module.networking.module.vpc.aws_route.database_nat_gateway" -> "module.networking.module.vpc.aws_route_table.database";
+  "module.networking.module.vpc.aws_route.private_dns64_nat_gateway" -> "module.networking.module.vpc.aws_nat_gateway.this";
+  "module.networking.module.vpc.aws_route.private_dns64_nat_gateway" -> "module.networking.module.vpc.aws_route_table.private";
+  "module.networking.module.vpc.aws_route.private_ipv6_egress" -> "module.networking.module.vpc.aws_egress_only_internet_gateway.this";
+  "module.networking.module.vpc.aws_route.private_ipv6_egress" -> "module.networking.module.vpc.aws_route_table.private";
+  "module.networking.module.vpc.aws_route.private_nat_gateway" -> "module.networking.module.vpc.aws_nat_gateway.this";
+  "module.networking.module.vpc.aws_route.private_nat_gateway" -> "module.networking.module.vpc.aws_route_table.private";
+  "module.networking.module.vpc.aws_route.public_internet_gateway" -> "module.networking.module.vpc.aws_internet_gateway.this";
+  "module.networking.module.vpc.aws_route.public_internet_gateway" -> "module.networking.module.vpc.aws_route_table.public";
+  "module.networking.module.vpc.aws_route.public_internet_gateway_ipv6" -> "module.networking.module.vpc.aws_internet_gateway.this";
+  "module.networking.module.vpc.aws_route.public_internet_gateway_ipv6" -> "module.networking.module.vpc.aws_route_table.public";
+  "module.networking.module.vpc.aws_route_table.database" -> "module.networking.data.aws_availability_zones.available";
+  "module.networking.module.vpc.aws_route_table.database" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_route_table.elasticache" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_route_table.intra" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_route_table.private" -> "module.networking.data.aws_availability_zones.available";
+  "module.networking.module.vpc.aws_route_table.private" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_route_table.public" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_route_table.redshift" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_route_table_association.database" -> "module.networking.module.vpc.aws_route_table.database";
+  "module.networking.module.vpc.aws_route_table_association.database" -> "module.networking.module.vpc.aws_route_table.private";
+  "module.networking.module.vpc.aws_route_table_association.database" -> "module.networking.module.vpc.aws_subnet.database";
+  "module.networking.module.vpc.aws_route_table_association.elasticache" -> "module.networking.module.vpc.aws_route_table.elasticache";
+  "module.networking.module.vpc.aws_route_table_association.elasticache" -> "module.networking.module.vpc.aws_route_table.private";
+  "module.networking.module.vpc.aws_route_table_association.elasticache" -> "module.networking.module.vpc.aws_subnet.elasticache";
+  "module.networking.module.vpc.aws_route_table_association.intra" -> "module.networking.module.vpc.aws_route_table.intra";
+  "module.networking.module.vpc.aws_route_table_association.intra" -> "module.networking.module.vpc.aws_subnet.intra";
+  "module.networking.module.vpc.aws_route_table_association.outpost" -> "module.networking.module.vpc.aws_route_table.private";
+  "module.networking.module.vpc.aws_route_table_association.outpost" -> "module.networking.module.vpc.aws_subnet.outpost";
+  "module.networking.module.vpc.aws_route_table_association.private" -> "module.networking.module.vpc.aws_route_table.private";
+  "module.networking.module.vpc.aws_route_table_association.private" -> "module.networking.module.vpc.aws_subnet.private";
+  "module.networking.module.vpc.aws_route_table_association.public" -> "module.networking.module.vpc.aws_route_table.public";
+  "module.networking.module.vpc.aws_route_table_association.public" -> "module.networking.module.vpc.aws_subnet.public";
+  "module.networking.module.vpc.aws_route_table_association.redshift" -> "module.networking.module.vpc.aws_route_table.private";
+  "module.networking.module.vpc.aws_route_table_association.redshift" -> "module.networking.module.vpc.aws_route_table.redshift";
+  "module.networking.module.vpc.aws_route_table_association.redshift" -> "module.networking.module.vpc.aws_subnet.redshift";
+  "module.networking.module.vpc.aws_route_table_association.redshift_public" -> "module.networking.module.vpc.aws_route_table.public";
+  "module.networking.module.vpc.aws_route_table_association.redshift_public" -> "module.networking.module.vpc.aws_route_table.redshift";
+  "module.networking.module.vpc.aws_route_table_association.redshift_public" -> "module.networking.module.vpc.aws_subnet.redshift";
+  "module.networking.module.vpc.aws_subnet.database" -> "module.networking.data.aws_availability_zones.available";
+  "module.networking.module.vpc.aws_subnet.database" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_subnet.elasticache" -> "module.networking.data.aws_availability_zones.available";
+  "module.networking.module.vpc.aws_subnet.elasticache" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_subnet.intra" -> "module.networking.data.aws_availability_zones.available";
+  "module.networking.module.vpc.aws_subnet.intra" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_subnet.outpost" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_subnet.private" -> "module.networking.data.aws_availability_zones.available";
+  "module.networking.module.vpc.aws_subnet.private" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_subnet.public" -> "module.networking.data.aws_availability_zones.available";
+  "module.networking.module.vpc.aws_subnet.public" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_subnet.redshift" -> "module.networking.data.aws_availability_zones.available";
+  "module.networking.module.vpc.aws_subnet.redshift" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_vpc_dhcp_options_association.this" -> "module.networking.module.vpc.aws_vpc_dhcp_options.this";
+  "module.networking.module.vpc.aws_vpc_dhcp_options_association.this" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this" -> "module.networking.module.vpc.aws_vpc.this";
+  "module.networking.module.vpc.aws_vpn_gateway.this" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_vpn_gateway_attachment.this" -> "module.networking.module.vpc.aws_vpc_ipv4_cidr_block_association.this";
+  "module.networking.module.vpc.aws_vpn_gateway_route_propagation.intra" -> "module.networking.module.vpc.aws_route_table.intra";
+  "module.networking.module.vpc.aws_vpn_gateway_route_propagation.intra" -> "module.networking.module.vpc.aws_vpn_gateway.this";
+  "module.networking.module.vpc.aws_vpn_gateway_route_propagation.intra" -> "module.networking.module.vpc.aws_vpn_gateway_attachment.this";
+  "module.networking.module.vpc.aws_vpn_gateway_route_propagation.private" -> "module.networking.module.vpc.aws_route_table.private";
+  "module.networking.module.vpc.aws_vpn_gateway_route_propagation.private" -> "module.networking.module.vpc.aws_vpn_gateway.this";
+  "module.networking.module.vpc.aws_vpn_gateway_route_propagation.private" -> "module.networking.module.vpc.aws_vpn_gateway_attachment.this";
+  "module.networking.module.vpc.aws_vpn_gateway_route_propagation.public" -> "module.networking.module.vpc.aws_route_table.public";
+  "module.networking.module.vpc.aws_vpn_gateway_route_propagation.public" -> "module.networking.module.vpc.aws_vpn_gateway.this";
+  "module.networking.module.vpc.aws_vpn_gateway_route_propagation.public" -> "module.networking.module.vpc.aws_vpn_gateway_attachment.this";
+}

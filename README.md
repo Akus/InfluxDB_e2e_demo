@@ -46,7 +46,14 @@ table name: terraform-lock
 partition key: LockID
 
 ### deploy networking module into the development environment
-cd "A:\Documents\repos\InfluxDB_e2e_demo\terraform-infra"
+cd "E:\Documents\repos\InfluxDB_e2e_demo\terraform-infra\envs\development"
 terraform init
 terraform plan -out=tfplan
 terraform apply "tfplan"
+
+## Investigating dependency cycles
+
+```powershell
+terraform graph | Out-File -Encoding ASCII graph.dot
+dot -Tpng graph.dot -o graph.png
+```

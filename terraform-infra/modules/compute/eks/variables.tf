@@ -1,8 +1,9 @@
 # EKS Cluster Input Variables
-variable "cluster_name" {
-  description = "Name of the EKS cluster. Also used as a prefix in names of related resources."
-  type        = string
-  default     = "eksdemo"
+
+variable "vpc_private_subnets" {
+  description = "List of private subnets to place the EKS cluster and workers within."
+  type        = list(string)
+  
 }
 
 variable "cluster_service_ipv4_cidr" {
@@ -36,3 +37,13 @@ variable "cluster_endpoint_public_access_cidrs" {
 
 # EKS Node Group Variables
 ## Placeholder space you can create if required
+
+variable "business_division" {
+  description = "The business division"
+  type        = string
+}
+
+variable "environment" {
+  description = "The environment (e.g., development, staging, production)"
+  type        = string
+}

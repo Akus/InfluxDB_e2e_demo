@@ -82,8 +82,3 @@ variable "environment" {
   description = "The environment (e.g., development, staging, production)"
   type        = string
 }
-
-variable "cluster_name" {
-  description = "The name of the cluster"
-  type        = string
-}
