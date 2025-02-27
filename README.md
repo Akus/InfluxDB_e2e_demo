@@ -79,5 +79,11 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath=\"{.data.pa
 # reach ArgoCD via HTTP instead of HTTPS
 http://ae7990a5e7b8f493cbd1c5fc724502e0-2061156755.eu-central-1.elb.amazonaws.com/login?return_url=http%3A%2F%2Fae7990a5e7b8f493cbd1c5fc724502e0-2061156755.eu-central-1.elb.amazonaws.com%2Fapplications
 
+https://ae7990a5e7b8f493cbd1c5fc724502e0-2061156755.eu-central-1.elb.amazonaws.com/login?return_url=http%3A%2F%2Fae7990a5e7b8f493cbd1c5fc724502e0-2061156755.eu-central-1.elb.amazonaws.com%2Fapplications
+
+# decode ArgoCD password
+$password = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}")))
+Write-Host "ArgoCD admin password: $password"
+
 kubectl get pods -n argocd
 kubectl get svc -n argocd
