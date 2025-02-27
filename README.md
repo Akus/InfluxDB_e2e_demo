@@ -57,3 +57,27 @@ terraform apply "tfplan"
 terraform graph | Out-File -Encoding ASCII graph.dot
 dot -Tpng graph.dot -o graph.png
 ```
+
+## EKS
+``` bash
+
+aws eks list-clusters
+```
+
+## ArgoCD
+cd "modules/argocd"
+
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update
+helm search repo argo/argo-cd --versions
+
+terraform plan -var="cluster-name=akos-influxdb-eks-development"
+terraform apply -var="cluster-name=akos-influxdb-eks-development"
+
+aws eks update-kubeconfig --region eu-central-1 --name akos-influxdb-eks-development
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath=\"{.data.password}\"
+# reach ArgoCD via HTTP instead of HTTPS
+http://ae7990a5e7b8f493cbd1c5fc724502e0-2061156755.eu-central-1.elb.amazonaws.com/login?return_url=http%3A%2F%2Fae7990a5e7b8f493cbd1c5fc724502e0-2061156755.eu-central-1.elb.amazonaws.com%2Fapplications
+
+kubectl get pods -n argocd
+kubectl get svc -n argocd

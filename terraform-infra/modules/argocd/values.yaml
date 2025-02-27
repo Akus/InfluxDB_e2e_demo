@@ -1,0 +1,63 @@
+---
+global:
+  image:
+    tag: "v2.6.6"
+
+dex:
+  enabled: false
+
+server:
+  extraArgs:
+    - --insecure # Remove this in production
+  
+  # Configure ingress if needed
+  # ingress:
+  #   enabled: true
+  #   ingressClassName: nginx
+  #   hosts:
+  #     - argocd.example.com
+
+# Configure RBAC settings if needed
+# rbacConfig:
+#   policy.csv: |
+#     g, your-group, role:admin
+
+# Redis configuration if needed
+# redis:
+#   resources:
+#     requests:
+#       memory: 128Mi
+#       cpu: 100m
+#     limits:
+#       memory: 256Mi
+#       cpu: 200m
+
+# Repository server configuration if needed
+# repoServer:
+#   resources:
+#     requests:
+#       memory: 256Mi
+#       cpu: 100m
+#     limits:
+#       memory: 512Mi
+#       cpu: 200m
+
+# Application controller configuration if needed
+# controller:
+#   resources:
+#     requests:
+#       memory: 256Mi
+#       cpu: 100m
+#     limits:
+#       memory: 1Gi
+#       cpu: 500m
+
+# Configure application definitions if needed
+# applications: []
+
+# Configure application projects if needed
+# applicationsets: []
+
+# Configure notifications if needed
+# notifications:
+#   enabled: false
