@@ -87,3 +87,18 @@ Write-Host "ArgoCD admin password: $password"
 
 kubectl get pods -n argocd
 kubectl get svc -n argocd
+
+
+## Cleanup environment
+cd terraform-infra\modules\argocd
+terraform destroy --auto-approve
+
+cd terraform-infra\envs\development
+terraform destroy --auto-approve
+
+## Create environment
+cd terraform-infra\envs\development
+terraform apply --auto-approve
+
+cd terraform-infra\modules\argocd
+terraform apply -var="cluster_name=akos-influxdb-eks-development" --auto-approve
