@@ -27,6 +27,8 @@ module "compute_eks" {
   depends_on = [ module.networking ]
 
   source               = "../../modules/compute/eks"
+  cluster_name = "${local.business_division}-${local.environment}"
+  vpc_id = module.networking.vpc_id
   cluster_service_ipv4_cidr = local.cluster_service_ipv4_cidr
   cluster_version      = local.cluster_version
   cluster_endpoint_private_access = local.cluster_endpoint_private_access
@@ -39,9 +41,9 @@ module "compute_eks" {
 }
 
 # module "storage" {
+#   depends_on = [ module.compute_eks ]
 #   source      = "../../modules/storage"
-#   environment = var.environment
-#   vpc_id      = module.networking.vpc_id
+#   cluster_name = var.cluster_name
 # }
 
 # module "monitoring" {

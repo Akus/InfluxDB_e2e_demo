@@ -88,3 +88,7 @@ output "node_group_private_version" {
   value       = aws_eks_node_group.eks_ng_private.version
 }
 
+output "eks_node_group_security_group_id" {
+  description = "The security group ID attached to the EKS Node Group."
+  value       = aws_security_group.eks_node_group.id  
+}

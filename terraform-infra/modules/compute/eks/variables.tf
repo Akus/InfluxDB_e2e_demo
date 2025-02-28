@@ -1,5 +1,15 @@
 # EKS Cluster Input Variables
 
+variable "cluster_name" {
+  description = "Name of the EKS cluster"
+  type        = string  
+}
+
+variable "vpc_id" {
+  description = "The VPC ID to create the EKS cluster within."
+  type        = string  
+}
+
 variable "vpc_private_subnets" {
   description = "List of private subnets to place the EKS cluster and workers within."
   type        = list(string)
@@ -46,4 +56,10 @@ variable "business_division" {
 variable "environment" {
   description = "The environment (e.g., development, staging, production)"
   type        = string
+}
+
+variable "storage_size" {
+  description = "Size of the EFS storage in GiB"
+  type        = number
+  default     = 8  
 }

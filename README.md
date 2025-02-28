@@ -74,8 +74,11 @@ helm search repo argo/argo-cd --versions
 terraform plan -var="cluster-name=akos-influxdb-eks-development"
 terraform apply -var="cluster-name=akos-influxdb-eks-development"
 
+kubectl config get-contexts
+
 aws eks update-kubeconfig --region eu-central-1 --name akos-influxdb-eks-development
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath=\"{.data.password}\"
+
 # reach ArgoCD via HTTP instead of HTTPS
 http://ae7990a5e7b8f493cbd1c5fc724502e0-2061156755.eu-central-1.elb.amazonaws.com/login?return_url=http%3A%2F%2Fae7990a5e7b8f493cbd1c5fc724502e0-2061156755.eu-central-1.elb.amazonaws.com%2Fapplications
 
@@ -102,3 +105,31 @@ terraform apply --auto-approve
 
 cd terraform-infra\modules\argocd
 terraform apply -var="cluster_name=akos-influxdb-eks-development" --auto-approve
+
+## Add Persistent Volume to EKS for InfluxDB
+
+terraform plan -var="cluster_name=akos-influxdb-eks-development" -var="eks_node_group_security_group_id=sg-074c8ccdeb0a382ea" -var="vpc_private_subnets=subnet-07547ef6e8e74a57c"
+
+terraform apply -var="cluster_name=akos-influxdb-eks-development" -var="eks_node_group_security_group_id=sg-074c8ccdeb0a382ea"  -var="vpc_private_subnets=subnet-07547ef6e8e74a57c"
+
+kubectl get pv
+
+kubectl get pvc
+
+kubectl get pvc --all-namespaces
+
+kubectl describe pv [pv-name]
+kubectl describe pv efs-pv
+
+kubectl describe pvc [pvc-name]
+kubectl describe pvc efs-pvc
+
+kubectl get storageclass
+kubectl describe storageclass <storage-class-name>
+
+## check InfluxDB after deploying it with ArgoCD with Git source (not Helm)
+kubectl get all -n influxdb
+
+## RBAC
+
+kubectl edit configmap aws-auth -n kube-system
