@@ -22,12 +22,6 @@ variable "vpc_public_subnets" {
   default     = ["10.0.101.0/24", "10.0.102.0/24"]
 }
 
-variable "cluster_name" {
-  description = "Cluster name"
-  type        = string
-  default     = "eks-cluster"
-}
-
 variable "instance_type" {
   description = "EC2 Instance Type"
   type = string

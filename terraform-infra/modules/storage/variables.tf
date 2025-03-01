@@ -24,7 +24,6 @@ variable "eks_node_group_security_group_id" {
 variable "vpc_private_subnets" {
   description = "List of private subnet IDs"
   type        = list(string)
-  default = [ "subnet-07547ef6e8e74a57c" ]
 }
 
 variable "k8s_namespace" {

@@ -22,3 +22,8 @@ output "eks_node_group_security_group_id" {
   description = "Security group ID of the EKS node group"
   value       = module.compute_eks.eks_node_group_security_group_id
 }
+
+output "cluster_name" {
+  description = "Name of the EKS cluster"
+  value       = local.cluster_name
+}

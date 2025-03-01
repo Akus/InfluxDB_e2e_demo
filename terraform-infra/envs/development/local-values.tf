@@ -22,9 +22,12 @@ locals {
 
   allowed_ssh_cidr_blocks = ["217.65.120.78/32"]
 
+  cluster_name = "${local.business_division}-${local.environment}"
   cluster_service_ipv4_cidr = "172.20.0.0/16"
   cluster_version = "1.31"
   cluster_endpoint_private_access = false
   cluster_endpoint_public_access = true
   cluster_endpoint_public_access_cidrs = ["0.0.0.0/0"]
+
+  argocd_helm_chart_version = "5.27.1"
 }
