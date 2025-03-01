@@ -29,9 +29,8 @@ resource "aws_iam_role_policy_attachment" "eks-AmazonEC2ContainerRegistryReadOnl
   role       = aws_iam_role.eks_nodegroup_role.name
 }
 
-resource "aws_iam_role_policy" "eks_efs_policy" {
+resource "aws_iam_policy" "eks_efs_policy" {
   name = "${var.business_division}-${var.environment}-eks-efs-policy"
-  role = aws_iam_role.eks_nodegroup_role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -52,7 +51,8 @@ resource "aws_iam_role_policy" "eks_efs_policy" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "eks_efs_policy_attachment" {
-  policy_arn = aws_iam_role_policy.eks_efs_policy.arn
-  role       = aws_iam_role.eks_nodegroup_role.name
+resource "aws_iam_policy_attachment" "eks_efs_policy_attachment" {
+  name        = "${var.business_division}-${var.environment}-eks-efs-policy-attachment"
+  policy_arn  = aws_iam_policy.eks_efs_policy.arn
+  roles       = [ aws_iam_role.eks_nodegroup_role.name ]
 }
