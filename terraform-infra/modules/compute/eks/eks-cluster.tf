@@ -25,3 +25,10 @@ resource "aws_eks_cluster" "eks_cluster" {
     aws_iam_role_policy_attachment.eks-AmazonEKSVPCResourceController,
   ]
 }
+
+# resource "helm_release" "aws_efs_csi_driver" {
+#   name       = "aws-efs-csi-driver"
+#   repository = "https://kubernetes-sigs.github.io/aws-efs-csi-driver/"
+#   chart      = "aws-efs-csi-driver"
+#   namespace  = "kube-system"
+# }

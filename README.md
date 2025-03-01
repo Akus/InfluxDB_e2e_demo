@@ -130,6 +130,13 @@ kubectl describe storageclass <storage-class-name>
 ## check InfluxDB after deploying it with ArgoCD with Git source (not Helm)
 kubectl get all -n influxdb
 
+helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver/
+helm repo update
+helm install aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver -n kube-system
+
+kubectl get pods -n kube-system -l app=efs-csi-node
+kubectl get pods -n kube-system -l app=efs-csi-controller
+
 ## RBAC
 
 kubectl edit configmap aws-auth -n kube-system

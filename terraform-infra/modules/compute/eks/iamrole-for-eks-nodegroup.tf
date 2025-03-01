@@ -28,3 +28,31 @@ resource "aws_iam_role_policy_attachment" "eks-AmazonEC2ContainerRegistryReadOnl
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.eks_nodegroup_role.name
 }
+
+resource "aws_iam_role_policy" "eks_efs_policy" {
+  name = "${var.business_division}-${var.environment}-eks-efs-policy"
+  role = aws_iam_role.eks_nodegroup_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "elasticfilesystem:DescribeFileSystems",
+          "elasticfilesystem:DescribeMountTargets",
+          "elasticfilesystem:DescribeMountTargetSecurityGroups",
+          "elasticfilesystem:CreateAccessPoint",
+          "elasticfilesystem:DeleteAccessPoint",
+          "elasticfilesystem:DescribeAccessPoints"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "eks_efs_policy_attachment" {
+  policy_arn = aws_iam_role_policy.eks_efs_policy.arn
+  role       = aws_iam_role.eks_nodegroup_role.name
+}

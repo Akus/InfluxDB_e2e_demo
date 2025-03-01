@@ -61,6 +61,7 @@ resource "kubernetes_storage_class" "efs" {
 
   parameters = {
     provisioningMode = "efs-ap"
+    fileSystemId      = aws_efs_file_system.efs.id
   }
 }
 
@@ -87,20 +88,20 @@ resource "kubernetes_persistent_volume" "efs_pv" {
   }
 }
 
-resource "kubernetes_persistent_volume_claim" "efs_pvc" {
-  metadata {
-    name = "efs-pvc"
-  }
+# resource "kubernetes_persistent_volume_claim" "efs_pvc" {
+#   metadata {
+#     name = "efs-pvc"
+#   }
 
-  spec {
-    access_modes = ["ReadWriteMany"]
+#   spec {
+#     access_modes = ["ReadWriteMany"]
 
-    resources {
-      requests = {
-        storage = var.storage_size
-      }
-    }
+#     resources {
+#       requests = {
+#         storage = var.storage_size
+#       }
+#     }
 
-    storage_class_name = kubernetes_storage_class.efs.metadata[0].name
-  }
-}
+#     storage_class_name = kubernetes_storage_class.efs.metadata[0].name
+#   }
+# }
