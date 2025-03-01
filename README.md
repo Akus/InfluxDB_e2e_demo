@@ -80,6 +80,8 @@ aws eks update-kubeconfig --region eu-central-1 --name akos-influxdb-eks-develop
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath=\"{.data.password}\"
 
 # reach ArgoCD via HTTP instead of HTTPS
+Check it in AWS Console/EKS/Services/argocd-server/LB DNS
+
 http://ae7990a5e7b8f493cbd1c5fc724502e0-2061156755.eu-central-1.elb.amazonaws.com/login?return_url=http%3A%2F%2Fae7990a5e7b8f493cbd1c5fc724502e0-2061156755.eu-central-1.elb.amazonaws.com%2Fapplications
 
 https://ae7990a5e7b8f493cbd1c5fc724502e0-2061156755.eu-central-1.elb.amazonaws.com/login?return_url=http%3A%2F%2Fae7990a5e7b8f493cbd1c5fc724502e0-2061156755.eu-central-1.elb.amazonaws.com%2Fapplications
