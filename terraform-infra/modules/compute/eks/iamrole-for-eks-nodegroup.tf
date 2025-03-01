@@ -38,12 +38,7 @@ resource "aws_iam_policy" "eks_efs_policy" {
       {
         Effect = "Allow"
         Action = [
-          "elasticfilesystem:DescribeFileSystems",
-          "elasticfilesystem:DescribeMountTargets",
-          "elasticfilesystem:DescribeMountTargetSecurityGroups",
-          "elasticfilesystem:CreateAccessPoint",
-          "elasticfilesystem:DeleteAccessPoint",
-          "elasticfilesystem:DescribeAccessPoints"
+          "elasticfilesystem:*"
         ]
         Resource = "*"
       }

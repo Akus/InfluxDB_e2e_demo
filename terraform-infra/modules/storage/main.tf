@@ -43,12 +43,12 @@ resource "aws_efs_mount_target" "efs_mount_target" {
   security_groups = [var.eks_node_group_security_group_id]
 }
 
-# resource "aws_efs_mount_target" "efs_mount_target_2" {
+resource "aws_efs_mount_target" "efs_mount_target_2" {
 
-#   file_system_id  = aws_efs_file_system.efs.id
-#   subnet_id       = var.vpc_private_subnets[1]
-#   security_groups = [var.eks_node_group_security_group_id]
-# }
+  file_system_id  = aws_efs_file_system.efs.id
+  subnet_id       = var.vpc_private_subnets[1]
+  security_groups = [var.eks_node_group_security_group_id]
+}
 
 resource "kubernetes_storage_class" "efs" {
   metadata {
@@ -60,8 +60,9 @@ resource "kubernetes_storage_class" "efs" {
   mount_options = ["tls"]
 
   parameters = {
-    provisioningMode = "efs-ap"
+    provisioningMode  = "efs-ap"
     fileSystemId      = aws_efs_file_system.efs.id
+    directoryPerms    = "755"
   }
 }
 

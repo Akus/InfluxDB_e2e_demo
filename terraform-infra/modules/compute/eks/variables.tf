@@ -63,3 +63,24 @@ variable "storage_size" {
   type        = number
   default     = 8  
 }
+
+variable "eks_worker_node_instance_type" {
+  description = "The instance type to use for the EKS worker nodes"
+  type        = string
+  
+}
+
+variable "eks_cluster_desired_size" {
+  description = "The desired number of worker nodes for the EKS cluster"
+  type        = number 
+}
+
+variable "eks_cluster_min_size" {
+  description = "The minimum number of worker nodes for the EKS cluster"
+  type        = number 
+}
+
+variable "eks_cluster_max_size" {
+  description = "The maximum number of worker nodes for the EKS cluster"
+  type        = number 
+}

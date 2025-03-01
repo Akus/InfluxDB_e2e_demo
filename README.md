@@ -116,7 +116,8 @@ terraform apply -var="cluster_name=akos-influxdb-eks-development" -var="eks_node
 
 kubectl get pv
 
-kubectl get pvc
+kubectl get pvc -n influxdb
+kubectl describe pvc -n influxdb influxdb-influxdb2
 
 kubectl get pvc --all-namespaces
 

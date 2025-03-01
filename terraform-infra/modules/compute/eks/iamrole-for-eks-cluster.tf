@@ -37,3 +37,9 @@ resource "aws_iam_role_policy_attachment" "eks-AmazonEKSVPCResourceController" {
   role       = aws_iam_role.eks_master_role.name
 }
 */
+
+resource "aws_iam_policy_attachment" "eks_cluster_efs_policy_attachment" {
+  name        = "${var.business_division}-${var.environment}-eks-cluster-efs-policy-attachment"
+  policy_arn  = aws_iam_policy.eks_efs_policy.arn
+  roles       = [ aws_iam_role.eks_master_role.name ]
+}

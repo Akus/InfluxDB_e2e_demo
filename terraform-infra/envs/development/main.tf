@@ -38,6 +38,10 @@ module "compute_eks" {
   environment          = local.environment
 #  public_subnets       = module.networking.public_subnets
   vpc_private_subnets       = module.networking.private_subnets
+  eks_worker_node_instance_type = local.eks_worker_node_instance_type
+  eks_cluster_desired_size = local.eks_cluster_desired_size
+  eks_cluster_min_size = local.eks_cluster_min_size
+  eks_cluster_max_size = local.eks_cluster_max_size
 }
 
 module "storage" {
