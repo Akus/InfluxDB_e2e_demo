@@ -156,11 +156,20 @@ kubectl edit configmap aws-auth -n kube-system
 ## Startup steps
 - deploy development
 - set new context
+aws eks update-kubeconfig --region eu-central-1 --name akos-influxdb-eks-development
 - set RBAC for akos_bodor user
 - install efs-csi-driver with helm
 - fix worker node security group mapping to EFS
+- create namespace for environment
+kubectl create namespace development
+- install ArgoCD with helm
+helm repo add argo https://argoproj.github.io/argo-helm
+helm install argocd-release --namespace development  argo/argo-cd --version 7.8.7
 - get password for ArgoCD admin
-- deploy InfluxDB with ArgoCD
+$password = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($(kubectl -n development get secret argocd-initial-admin-secret -o jsonpath="{.data.password}")))
+Write-Host "ArgoCD admin password: $password"
+- deploy InfluxDB with ArgoCD:
+https://github.com/Akus/helm-charts/tree/influxdb2-2.1.2
 - check InfluxDB pod
 
 kubectl describe pod -n influxdb influxdb-influxdb2-0
