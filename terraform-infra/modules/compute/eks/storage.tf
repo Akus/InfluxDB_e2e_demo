@@ -43,6 +43,7 @@ resource "kubernetes_storage_class" "efs" {
     provisioningMode  = "efs-ap"
     fileSystemId      = aws_efs_file_system.efs.id
     directoryPerms    = "755"
+    access_modes      = "ReadWriteOnce"
   }
 }
 
