@@ -45,3 +45,13 @@ Back-off restarting failed container influxdb2 in pod influxdb-influxdb2-0_influ
   Warning  BackOff    2m7s (x11 over 3m23s)  kubelet            Back-off restarting failed container influxdb2 
 in pod influxdb-influxdb2-0_influxdb(bb31e799-7897-4853-8a31-b1c3c3fd6b67)
   Normal   Pulled     112s (x4 over 3m24s)   kubelet            Container image "influxdb:2.7.4-alpine" already present on machine
+
+  kubectl get events -n influxdb --field-selector involvedObject.name=influxdb-influxdb2-0
+
+  LAST SEEN   TYPE      REASON             OBJECT                     MESSAGE
+3m1s        Warning   FailedScheduling   pod/influxdb-influxdb2-0   0/1 nodes are available: pod has unbound immediate PersistentVolumeClaimmediate PersistentVolumeClaims. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.                                                                                                              luxdb2-0 to ip-10-0-1-79.eu-c
+2m59s       Normal    Scheduled          pod/influxdb-influxdb2-0   Successfully assigned influxdb/influxdb-influxdb2-0 to ip-10-0-1-79.eu-central-1.compute.internal                                                         d5a439-29eb-481c-b747-0c60ade
+59s         Warning   FailedMount        pod/influxdb-influxdb2-0   MountVolume.SetUp failed for volume "pvc-b6d5a439-29eb-481c-b747-0c60ade6b9e4" : rpc error: code = DeadlineExceeded desc = context deadline exceeded  
+
+kubectl logs influxdb-influxdb2-0 -n influxdb
+

@@ -76,7 +76,10 @@ terraform apply -var="cluster-name=akos-influxdb-eks-development"
 
 kubectl config get-contexts
 
+
+# get context
 aws eks update-kubeconfig --region eu-central-1 --name akos-influxdb-eks-development
+
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath=\"{.data.password}\"
 
 # reach ArgoCD via HTTP instead of HTTPS
@@ -143,3 +146,23 @@ kubectl get pods -n kube-system -l app=efs-csi-controller
 ## RBAC
 
 kubectl edit configmap aws-auth -n kube-system
+
+  mapUsers: |
+    - userarn: arn:aws:iam::823514127427:user/akos_bodor
+      username: akos_bodor
+      groups:
+        - system:masters
+
+## Startup steps
+- deploy development
+- set new context
+- set RBAC for akos_bodor user
+- install efs-csi-driver with helm
+- fix worker node security group mapping to EFS
+- get password for ArgoCD admin
+- deploy InfluxDB with ArgoCD
+- check InfluxDB pod
+
+kubectl describe pod -n influxdb influxdb-influxdb2-0
+
+kubectl get statefulset influxdb-influxdb2 -n influxdb -o yaml
