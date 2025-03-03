@@ -24,7 +24,6 @@ module "bastion" {
 }
 
 module "compute_eks" {
-  depends_on = [ module.networking ]
 
   source               = "../../modules/compute/eks"
   cluster_name = local.cluster_name
@@ -44,21 +43,22 @@ module "compute_eks" {
   eks_cluster_max_size = local.eks_cluster_max_size
 }
 
-module "storage" {
-  source      = "../../modules/storage"
-  cluster_name = local.cluster_name
-  k8s_namespace = "influxdb"
-  eks_node_group_security_group_id = module.compute_eks.eks_node_group_security_group_id
-  vpc_private_subnets = module.networking.private_subnets
-}
+# module "storage" {
+#   depends_on = [ module.compute_eks ]
+#   source      = "../../modules/storage"
+#   cluster_name = local.cluster_name
+#   k8s_namespace = "influxdb"
+#   eks_node_group_security_group_id = module.compute_eks.eks_node_group_security_group_id
+#   vpc_private_subnets = module.networking.private_subnets
+# }
 
-module "argocd" {
-  source      = "../../modules/argocd"
-  cluster_name = local.cluster_name
-  region = var.aws_region
-  argocd_namespace = "argocd"
-  argocd_helm_chart_version = local.argocd_helm_chart_version
-}
+# module "argocd" {
+#   source      = "../../modules/argocd"
+#   cluster_name = local.cluster_name
+#   region = var.aws_region
+#   argocd_namespace = "argocd"
+#   argocd_helm_chart_version = local.argocd_helm_chart_version
+# }
 
 # module "monitoring" {
 #   source      = "../../modules/monitoring"
