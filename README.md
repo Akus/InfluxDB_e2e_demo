@@ -159,17 +159,28 @@ kubectl edit configmap aws-auth -n kube-system
 aws eks update-kubeconfig --region eu-central-1 --name akos-influxdb-eks-development
 - set RBAC for akos_bodor user
 - install efs-csi-driver with helm
+helm install aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver -n kube-system
 - fix worker node security group mapping to EFS
 - create namespace for environment
-kubectl create namespace development
+kubectl create namespace argocd
 - install ArgoCD with helm
 helm repo add argo https://argoproj.github.io/argo-helm
-helm install argocd-release --namespace development  argo/argo-cd --version 7.8.7
+helm install argocd --namespace argocd argo/argo-cd --version 7.8.7
 - get password for ArgoCD admin
-$password = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($(kubectl -n development get secret argocd-initial-admin-secret -o jsonpath="{.data.password}")))
+$password = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}")))
 Write-Host "ArgoCD admin password: $password"
+- port forward ArgoCD
+kubectl port-forward svc/argocd-server -n argocd 8080:443
 - deploy InfluxDB with ArgoCD:
-https://github.com/Akus/helm-charts/tree/influxdb2-2.1.2
+Repository URL (Git)
+https://github.com/Akus/helm-charts.git
+Revision (Tags)
+influxdb2-2.1.2
+Path
+charts/influxdb2
+
+- add storage class to influxdb values
+storageClassName: "efs-sc"
 - check InfluxDB pod
 
 kubectl describe pod -n influxdb influxdb-influxdb2-0

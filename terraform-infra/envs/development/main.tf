@@ -28,6 +28,7 @@ module "compute_eks" {
   source               = "../../modules/compute/eks"
   cluster_name = local.cluster_name
   vpc_id = module.networking.vpc_id
+  vpc_cidr_block = local.vpc_cidr_block
   cluster_service_ipv4_cidr = local.cluster_service_ipv4_cidr
   cluster_version      = local.cluster_version
   cluster_endpoint_private_access = local.cluster_endpoint_private_access

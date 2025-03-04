@@ -29,9 +29,9 @@ locals {
   cluster_endpoint_public_access = true
   cluster_endpoint_public_access_cidrs = ["0.0.0.0/0"]
   eks_worker_node_instance_type = "t3.medium"
-  eks_cluster_desired_size = 2
-  eks_cluster_min_size = 2
-  eks_cluster_max_size = 2
+  eks_cluster_desired_size = 1
+  eks_cluster_min_size = 1
+  eks_cluster_max_size = 1
 
   argocd_helm_chart_version = "5.27.1"
 }

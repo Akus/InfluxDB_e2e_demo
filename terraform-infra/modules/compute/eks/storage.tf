@@ -1,3 +1,17 @@
+resource "aws_security_group" "efs" {
+  name        = "${var.cluster_name} efs"
+  description = "Allow traffic"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    description      = "nfs"
+    from_port        = 2049
+    to_port          = 2049
+    protocol         = "TCP"
+    cidr_blocks      = [var.vpc_cidr_block]
+  }
+}
+
 resource "aws_efs_file_system" "efs" {
   creation_token = "eks-efs"
 }
@@ -6,22 +20,23 @@ resource "aws_efs_mount_target" "efs_mount_target" {
 
   file_system_id  = aws_efs_file_system.efs.id
   subnet_id       = var.vpc_private_subnets[0]
-  security_groups = [aws_security_group.eks_node_group.id]
+  security_groups = [aws_security_group.efs.id]
 }
 
 resource "aws_efs_mount_target" "efs_mount_target_2" {
 
   file_system_id  = aws_efs_file_system.efs.id
   subnet_id       = var.vpc_private_subnets[1]
-  security_groups = [aws_security_group.eks_node_group.id]
+  security_groups = [aws_security_group.efs.id]
 }
 
 data "aws_eks_cluster" "cluster" {
-  name = var.cluster_name
+  depends_on = [ aws_eks_cluster.eks_cluster ]
+  name = aws_eks_cluster.eks_cluster.name
 }
 
 data "aws_eks_cluster_auth" "cluster" {
-  name = var.cluster_name
+  name = aws_eks_cluster.eks_cluster.name
 }
 
 provider "kubernetes" {
@@ -37,14 +52,13 @@ resource "kubernetes_storage_class" "efs" {
 
   storage_provisioner = "efs.csi.aws.com"
 
-  mount_options = ["tls"]
+  # mount_options = ["tls"]
 
   parameters = {
     provisioningMode  = "efs-ap"
     fileSystemId      = aws_efs_file_system.efs.id
-    directoryPerms    = "755"
-    access_modes      = "ReadWriteOnce"
-  }
+    directoryPerms    = "700"
+     }
 }
 
 resource "kubernetes_persistent_volume" "efs_pv" {
@@ -69,3 +83,21 @@ resource "kubernetes_persistent_volume" "efs_pv" {
     storage_class_name = kubernetes_storage_class.efs.metadata[0].name
   }
 }
+
+module "vpc_cni_irsa" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+  version = "~> 5.0"
+
+  role_name_prefix                   = "VPC-CNI-IRSA"
+  attach_vpc_cni_policy              = true
+  vpc_cni_enable_ipv4                = true
+  attach_ebs_csi_policy              = true
+
+  oidc_providers = {
+    efs = {
+      provider_arn               = module.efs.oidc_provider_arn
+      namespace_service_accounts = ["kube-system:efs-csi-controller-sa"]
+    }
+  }
+}
+
