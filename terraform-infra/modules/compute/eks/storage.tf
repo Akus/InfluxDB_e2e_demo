@@ -84,20 +84,63 @@ resource "kubernetes_persistent_volume" "efs_pv" {
   }
 }
 
-module "vpc_cni_irsa" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-  version = "~> 5.0"
+resource "kubernetes_persistent_volume" "efs_pv_2" {
+  metadata {
+    name = "efs-pv-2"
+  }
 
-  role_name_prefix                   = "VPC-CNI-IRSA"
-  attach_vpc_cni_policy              = true
-  vpc_cni_enable_ipv4                = true
-  attach_ebs_csi_policy              = true
+  spec {
+    capacity = {
+      storage = 10
+    }
 
-  oidc_providers = {
-    efs = {
-      provider_arn               = module.efs.oidc_provider_arn
-      namespace_service_accounts = ["kube-system:efs-csi-controller-sa"]
+    access_modes = ["ReadWriteMany"]
+
+    persistent_volume_source {
+      csi {
+        driver = "efs.csi.aws.com"
+        volume_handle = aws_efs_file_system.efs.id
+      }
+    }
+
+    storage_class_name = kubernetes_storage_class.efs.metadata[0].name
+  }
+}
+
+# dummy claim pvc
+resource "kubernetes_persistent_volume_claim" "efs_pvc" {
+  metadata {
+    name = "efs-pvc-2"
+    namespace = "influxdb"
+  }
+
+  spec {
+    access_modes = ["ReadWriteMany"]
+    storage_class_name = kubernetes_storage_class.efs.metadata[0].name
+    resources {
+      requests = {
+        storage = 10
+      }
     }
   }
 }
+
+
+
+# module "vpc_cni_irsa" {
+#   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+#   version = "~> 5.0"
+
+#   role_name_prefix                   = "VPC-CNI-IRSA"
+#   attach_vpc_cni_policy              = true
+#   vpc_cni_enable_ipv4                = true
+#   attach_ebs_csi_policy              = true
+
+#   oidc_providers = {
+#     efs = {
+#       provider_arn               = module.efs.oidc_provider_arn
+#       namespace_service_accounts = ["kube-system:efs-csi-controller-sa"]
+#     }
+#   }
+# }
 
