@@ -186,3 +186,26 @@ storageClassName: "efs-sc"
 kubectl describe pod -n influxdb influxdb-influxdb2-0
 
 kubectl get statefulset influxdb-influxdb2 -n influxdb -o yaml
+
+
+kubectl port-forward svc/influxdb-influxdb2 -n influxdb 9090:80
+
+$infl_password = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($(kubectl -n influxdb get secret influxdb-influxdb2-auth -o jsonpath="{.data.admin-password}")))
+Write-Host "InfluxDB admin password: $infl_password"
+
+
+## Create nginx ingress
+https://medium.com/@muppedaanvesh/a-hands-on-guide-to-kubernetes-ingress-nginx-7c4c5b45eb89
+
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+kubectl create namespace ingress-nginx
+helm install my-ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx
+
+kubectl get service --namespace ingress-nginx my-ingress-nginx-controller --output wide --watch
+kubectl --namespace ingress-nginx get services -o wide -w my-ingress-nginx-controller
+
+# create ingress resource (mapping)
+kubectl apply -f influxdb-ingress.yaml
+
+# troubleshooting
+kubectl get services -o wide -n ingress-nginx
