@@ -160,7 +160,6 @@ aws eks update-kubeconfig --region eu-central-1 --name akos-influxdb-eks-develop
 - set RBAC for akos_bodor user
 - install efs-csi-driver with helm
 helm install aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver -n kube-system
-- fix worker node security group mapping to EFS
 - create namespace for environment
 kubectl create namespace argocd
 - install ArgoCD with helm
