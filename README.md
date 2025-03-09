@@ -179,7 +179,7 @@ influxdb2-2.1.2
 Path
 charts/influxdb2
 
-- add storage class to influxdb values
+- add storage class to influxdb values or use branch
 storageClassName: "efs-sc"
 - check InfluxDB pod
 
