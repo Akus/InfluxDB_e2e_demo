@@ -217,3 +217,14 @@ kubectl create namespace influxdb
 
 # troubleshooting
 kubectl get services -o wide -n ingress-nginx
+
+
+# Let's enrypt
+
+sudo apt-get update
+sudo apt-get install certbot
+
+sudo certbot certonly --standalone -d mqtt.akos-demo.com -d www.mqttt.akos-demo.com
+
+sudo pip3 install Adafruit_DHT paho-mqtt
+
