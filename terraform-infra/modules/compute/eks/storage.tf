@@ -107,23 +107,23 @@ resource "kubernetes_persistent_volume" "efs_pv_2" {
   }
 }
 
-# dummy claim pvc
-resource "kubernetes_persistent_volume_claim" "efs_pvc" {
-  metadata {
-    name = "efs-pvc-2"
-    namespace = "influxdb"
-  }
+# # dummy claim pvc
+# resource "kubernetes_persistent_volume_claim" "efs_pvc" {
+#   metadata {
+#     name = "efs-pvc-2"
+#     namespace = "influxdb"
+#   }
 
-  spec {
-    access_modes = ["ReadWriteMany"]
-    storage_class_name = kubernetes_storage_class.efs.metadata[0].name
-    resources {
-      requests = {
-        storage = 10
-      }
-    }
-  }
-}
+#   spec {
+#     access_modes = ["ReadWriteMany"]
+#     storage_class_name = kubernetes_storage_class.efs.metadata[0].name
+#     resources {
+#       requests = {
+#         storage = 10
+#       }
+#     }
+#   }
+# }
 
 
 
