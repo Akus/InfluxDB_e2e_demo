@@ -55,3 +55,13 @@ in pod influxdb-influxdb2-0_influxdb(bb31e799-7897-4853-8a31-b1c3c3fd6b67)
 
 kubectl logs influxdb-influxdb2-0 -n influxdb
 
+
+## Error with helm install
+PS E:\Akos\Development\repos\InfluxDB_e2e_demo\helm-charts\argo-cd> helm install argo-cd ./ -n argo-cd
+Error: INSTALLATION FAILED: Unable to continue with install: CustomResourceDefinition "applicationsets.argoproj.io" in namespace "" exists and cannot be imported into the current release: invalid ownership metadata; annotation validation error: key "meta.helm.sh/release-namespace" must equal "argo-cd": current value is "default"
+
+### Solution
+kubectl delete crd applications.argoproj.io
+kubectl delete crd applicationsets.argoproj.io
+kubectl delete crd appprojects.argoproj.io
+

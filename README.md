@@ -162,7 +162,15 @@ aws eks update-kubeconfig --region eu-central-1 --name akos-influxdb-eks-develop
 helm install aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver -n kube-system
 - create namespace for environment
 kubectl create namespace argocd
+kubectl create namespace influxdb
+kubectl create namespace mosquitto
+kubectl create namespace grafana
+kubectl create namespace prometheus
+
 - install ArgoCD with helm
+from local helm:
+helm install argo-cd ./ -n argocd
+
 helm repo add argo https://argoproj.github.io/argo-helm
 helm install argocd --namespace argocd argo/argo-cd --version 7.8.7
 - get password for ArgoCD admin
@@ -205,6 +213,7 @@ kubectl --namespace ingress-nginx get services -o wide -w my-ingress-nginx-contr
 
 # create ingress resource (mapping)
 kubectl apply -f influxdb-ingress.yaml
+kubectl create namespace influxdb
 
 # troubleshooting
 kubectl get services -o wide -n ingress-nginx

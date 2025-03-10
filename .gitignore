@@ -10,3 +10,6 @@ override.tf.json
 .terraform/
 .terraform.lock.hcl
 **/.terraform/*
+helm-charts/argo-cd/Chart.lock
+helm-charts/argo-cd/charts/argo-cd-7.8.9.tgz
+helm-charts/mosquitto/templates/_helpers.tpl
