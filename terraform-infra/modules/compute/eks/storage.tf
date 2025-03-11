@@ -107,6 +107,52 @@ resource "kubernetes_persistent_volume" "efs_pv_2" {
   }
 }
 
+resource "kubernetes_persistent_volume" "efs_pv_3" {
+  metadata {
+    name = "efs-pv-3"
+  }
+
+  spec {
+    capacity = {
+      storage = 5
+    }
+
+    access_modes = ["ReadWriteMany"]
+
+    persistent_volume_source {
+      csi {
+        driver = "efs.csi.aws.com"
+        volume_handle = aws_efs_file_system.efs.id
+      }
+    }
+
+    storage_class_name = kubernetes_storage_class.efs.metadata[0].name
+  }
+}
+
+resource "kubernetes_persistent_volume" "efs_pv_4" {
+  metadata {
+    name = "efs-pv-4"
+  }
+
+  spec {
+    capacity = {
+      storage = 10
+    }
+
+    access_modes = ["ReadWriteMany"]
+
+    persistent_volume_source {
+      csi {
+        driver = "efs.csi.aws.com"
+        volume_handle = aws_efs_file_system.efs.id
+      }
+    }
+
+    storage_class_name = kubernetes_storage_class.efs.metadata[0].name
+  }
+}
+
 # # dummy claim pvc
 # resource "kubernetes_persistent_volume_claim" "efs_pvc" {
 #   metadata {
