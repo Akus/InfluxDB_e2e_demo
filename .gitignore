@@ -20,3 +20,5 @@ terraform-infra/certbot_letsencrypt_issue.PNG
 terraform-infra/certbot_letsencrypt_success_1.PNG
 terraform-infra/certbot_letsencrypt_success_2.PNG
 terraform-infra/certbot_letsencrypt_success_3.PNG
+letsencrypt/live/mqtt.akos-demo.com/chain.pem
+letsencrypt/live/mqtt.akos-demo.com/cert.pem
