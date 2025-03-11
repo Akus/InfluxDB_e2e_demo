@@ -19,7 +19,7 @@ serviceAccount:
 
 service:
   type: ClusterIP
-  externalTrafficPolicy: Cluster
+  # externalTrafficPolicy: Cluster
   annotations: {}
     # metallb.universe.tf/allow-shared-ip: pi-hole
 
@@ -109,15 +109,28 @@ config: |
   listener 1883
   listener 9090
   protocol websockets
+  cafile /certs/fullchain.pem
+  certfile /certs/cert.pem
+  keyfile /certs/privkey.pem
+
+extraVolumes:
+  - name: tls
+    secret:
+      secretName: mosquitto-certs
+
+extraVolumeMounts:
+  - name: tls
+    mountPath: /certs
+    subPath: ""
 
 ## Additional volumes.
-extraVolumes: []
+# extraVolumes: []
   # - name: tls
   #   secret:
   #     secretName: mosquitto-certs
 
 ## Additional volumeMounts to the main container.
-extraVolumeMounts: []
+# extraVolumeMounts: []
   # - name: tls
   #   mountPath: /certs
   #   subPath: cafile
