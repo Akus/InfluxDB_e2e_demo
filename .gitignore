@@ -22,3 +22,7 @@ terraform-infra/certbot_letsencrypt_success_2.PNG
 terraform-infra/certbot_letsencrypt_success_3.PNG
 letsencrypt/live/mqtt.akos-demo.com/chain.pem
 letsencrypt/live/mqtt.akos-demo.com/cert.pem
+letsencrypt/live/cert.pem
+letsencrypt/live/chain.pem
+letsencrypt/live/fullchain.pem
+letsencrypt/live/privkey.pem
