@@ -27,4 +27,14 @@ spec:
               service:
                 name: influxdb-influxdb2
                 port:
-                  number: 80                  
+                  number: 80
+    - host: mqtt.akos-demo.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mqtt
+                port:
+                  number: 80
