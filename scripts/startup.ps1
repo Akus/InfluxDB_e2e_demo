@@ -14,7 +14,7 @@ kubectl create namespace influxdb
 kubectl create namespace mosquitto
 kubectl create namespace grafana
 kubectl create namespace prometheus
-kubectl create namespace nginx-ingress
+kubectl create namespace ingress-nginx
 
 cd ../../../helm-charts/argo-cd
 helm install argocd . -n argocd
@@ -32,5 +32,12 @@ helm install influxdb . -n influxdb
 # cd ../prometheus
 # helm install prometheus . -n prometheus
 
+# create nginx ingress controller
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm install my-ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx
+
 cd ../../k8s_manifests
-kubectl apply -f nginx-ingress.yaml -n nginx-ingress
+kubectl apply -f ingress-resources.yaml
+kubectl apply -f argocd-ingress.yaml -n argocd
+kubectl apply -f mosquitto-ingress.yaml -n mosquitto
+kubectl apply -f influxdb-ingress.yaml -n influxdb
