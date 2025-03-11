@@ -13,3 +13,10 @@ override.tf.json
 helm-charts/argo-cd/Chart.lock
 helm-charts/argo-cd/charts/argo-cd-7.8.9.tgz
 helm-charts/mosquitto/templates/_helpers.tpl
+letsencrypt/live/mqtt.akos-demo.com/fullchain.pem
+letsencrypt/live/README
+letsencrypt/live/mqtt.akos-demo.com/privkey.pem
+terraform-infra/certbot_letsencrypt_issue.PNG
+terraform-infra/certbot_letsencrypt_success_1.PNG
+terraform-infra/certbot_letsencrypt_success_2.PNG
+terraform-infra/certbot_letsencrypt_success_3.PNG
