@@ -57,18 +57,19 @@ resource "kubernetes_storage_class" "efs" {
   parameters = {
     provisioningMode  = "efs-ap"
     fileSystemId      = aws_efs_file_system.efs.id
-    directoryPerms    = "700"
+    directoryPerms    = "777"
      }
 }
 
 resource "kubernetes_persistent_volume" "efs_pv" {
+  depends_on = [ kubernetes_storage_class.efs ]
   metadata {
     name = "efs-pv"
   }
 
   spec {
     capacity = {
-      storage = var.storage_size
+      storage = 50
     }
 
     access_modes = ["ReadWriteMany"]
@@ -85,6 +86,8 @@ resource "kubernetes_persistent_volume" "efs_pv" {
 }
 
 resource "kubernetes_persistent_volume" "efs_pv_2" {
+  depends_on = [ kubernetes_storage_class.efs ]
+
   metadata {
     name = "efs-pv-2"
   }
@@ -108,6 +111,8 @@ resource "kubernetes_persistent_volume" "efs_pv_2" {
 }
 
 resource "kubernetes_persistent_volume" "efs_pv_3" {
+  depends_on = [ kubernetes_storage_class.efs ]
+
   metadata {
     name = "efs-pv-3"
   }
@@ -131,6 +136,8 @@ resource "kubernetes_persistent_volume" "efs_pv_3" {
 }
 
 resource "kubernetes_persistent_volume" "efs_pv_4" {
+  depends_on = [ kubernetes_storage_class.efs ]
+
   metadata {
     name = "efs-pv-4"
   }
