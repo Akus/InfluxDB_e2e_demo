@@ -228,3 +228,5 @@ sudo certbot certonly --standalone -d mqtt.akos-demo.com -d www.mqttt.akos-demo.
 
 sudo pip3 install Adafruit_DHT paho-mqtt
 
+# TODO
+MQTT mapping to K8s service directly
