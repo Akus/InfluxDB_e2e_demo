@@ -6,6 +6,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx
   rules:
   - host: argocd.akos-demo.com
     http:
@@ -26,6 +27,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx
   rules:
   - host: influxdb.akos-demo.com
     http:
@@ -46,6 +48,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx
   rules:
   - host: mqtt.akos-demo.com
     http:
@@ -56,4 +59,4 @@ spec:
           service:
             name: mosquitto
             port:
-              number: 443
+              number: 9090
