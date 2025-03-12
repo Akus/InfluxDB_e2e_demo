@@ -41,3 +41,7 @@ kubectl apply -f ingress-resources.yaml
 kubectl apply -f argocd-ingress.yaml -n argocd
 kubectl apply -f mosquitto-ingress.yaml -n mosquitto
 kubectl apply -f influxdb-ingress.yaml -n influxdb
+
+# get LB DNS for Route53
+kubectl get service --namespace ingress-nginx my-ingress-nginx-controller --output wide --watch
+kubectl --namespace ingress-nginx get services -o wide -w my-ingress-nginx-controller
