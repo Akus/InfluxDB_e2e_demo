@@ -14,7 +14,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: argocd-service
+            name: argocd-server
             port:
               number: 80
 ---
@@ -34,7 +34,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: influxdb-service
+            name: influxdb-influxdb2
             port:
               number: 80
 ---
@@ -42,7 +42,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: mqtt-ingress
-  namespace: mqtt
+  namespace: mosquitto
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
@@ -54,6 +54,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: mqtt-service
+            name: mosquitto
             port:
-              number: 80
+              number: 443
