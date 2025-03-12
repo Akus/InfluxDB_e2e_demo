@@ -45,3 +45,10 @@ kubectl apply -f influxdb-ingress.yaml -n influxdb
 # get LB DNS for Route53
 kubectl get service --namespace ingress-nginx my-ingress-nginx-controller --output wide --watch
 kubectl --namespace ingress-nginx get services -o wide -w my-ingress-nginx-controller
+
+$password = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}")))
+Write-Host "ArgoCD admin password: $password"
+
+$infl_password = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($(kubectl -n influxdb get secret influxdb-influxdb2-auth -o jsonpath="{.data.admin-password}")))
+Write-Host "InfluxDB admin password: $infl_password"
+
