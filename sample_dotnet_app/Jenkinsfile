@@ -1,53 +1,49 @@
 pipeline {
     agent {
         kubernetes {
-        yaml """
-    apiVersion: v1
-    kind: Pod
-    spec:
-    containers:
+            yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
     - name: kaniko
-        image: gcr.io/kaniko-project/executor:v1.22.0
-        command:
+      image: gcr.io/kaniko-project/executor:v1.22.0
+      command:
         - cat
-        tty: true
-        volumeMounts:
+      tty: true
+      volumeMounts:
         - name: kaniko-secret
-        mountPath: /kaniko/.docker
-    volumes:
+          mountPath: /kaniko/.docker
+  volumes:
     - name: kaniko-secret
-        secret:
+      secret:
         secretName: regcred
-    """
+"""
         }
     }
     environment {
         DOCKER_IMAGE = "akosbodor/csharp-microservice:latest"
     }
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
         stage('Build and Push with Kaniko') {
-        steps {
-            withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
-                                
-            container('kaniko') {
-            sh '''
-                /kaniko/executor --dockerfile=Dockerfile --context=. --destination=$DOCKER_IMAGE
-                /kaniko/executor --dockerfile=./Dockerfile --context=$(pwd) --destination=akosbodor/csharp-microservice:latest
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
+                    container('kaniko') {
+                        sh '''
+                        /kaniko/executor --dockerfile=Dockerfile --context=. --destination=$DOCKER_IMAGE --docker-config=/kaniko/.docker/
+                        '''
+                    }
+                }
             }
-      }
-        }
         }
         stage('Deploy to EKS') {
             steps {
                 withCredentials([file(credentialsId: 'EKS_kubeconfig', variable: 'KUBECONFIG')]) {
-                    sh '''
-                    // Ensure deployment.yaml exists before applying
                     sh '''
                     if [ ! -f deployment.yaml ]; then
                         echo "Error: deployment.yaml not found in workspace."
@@ -55,6 +51,7 @@ pipeline {
                     fi
                     kubectl apply -f deployment.yaml
                     '''
+                }
             }
         }
     }
