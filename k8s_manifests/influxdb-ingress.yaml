@@ -17,4 +17,4 @@ spec:
               service:
                 name: influxdb-influxdb2
                 port:
-                  number: 81
+                  number: 80

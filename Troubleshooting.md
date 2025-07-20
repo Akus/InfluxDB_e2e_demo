@@ -1,4 +1,8 @@
 
+## Error: terraform state is locked
+
+terraform force-unlock [lock-id]
+
 ## Error:
 
 Waiting for a volume to be created either by the external provisioner 'efs.csi.aws.com' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.

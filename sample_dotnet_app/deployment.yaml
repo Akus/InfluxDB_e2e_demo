@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: csharp-microservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: csharp-microservice
+  template:
+    metadata:
+      labels:
+        app: csharp-microservice
+    spec:
+      containers:
+      - name: csharp-microservice
+        image: your-dockerhub-username/csharp-microservice:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: csharp-microservice-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: csharp-microservice

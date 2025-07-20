@@ -62,11 +62,25 @@ dot -Tpng graph.dot -o graph.png
 ``` bash
 
 aws eks list-clusters
+aws eks update-kubeconfig --region eu-central-1 --name akos-influxdb-eks-development
 ```
+
+## install Freelens on Windows for Kubernetes
+winget install Freelensapp.
 
 ## ArgoCD
 cd "modules/argocd"
 
+# Deploy ArgoCD from local Helm chart directory (for development/testing)
+helm install argocd ./ -n argocd
+
+# If you need to upgrade an existing release from local chart
+helm upgrade argocd ./ -n argocd
+
+# To uninstall
+helm uninstall argocd -n argocd
+
+# Alternatively, deploy from remote repo:
 helm repo add argo https://argoproj.github.io/argo-helm
 helm repo update
 helm search repo argo/argo-cd --versions
@@ -168,9 +182,10 @@ kubectl create namespace grafana
 kubectl create namespace prometheus
 
 - install ArgoCD with helm
-from local helm:
+from local helm: THIS DOESN'T WORK YET!
 helm install argo-cd ./ -n argocd
 
+from remote repo: THIS WORKS:
 helm repo add argo https://argoproj.github.io/argo-helm
 helm install argocd --namespace argocd argo/argo-cd --version 7.8.7
 - get password for ArgoCD admin
@@ -201,6 +216,10 @@ $infl_password = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBa
 Write-Host "InfluxDB admin password: $infl_password"
 
 
+# get grafana password
+$grafana_password = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($(kubectl -n grafana get secret grafana -o jsonpath="{.data.admin-password}")))
+Write-Host "Grafana admin password: $grafana_password"
+
 ## Create nginx ingress
 https://medium.com/@muppedaanvesh/a-hands-on-guide-to-kubernetes-ingress-nginx-7c4c5b45eb89
 
@@ -212,6 +231,7 @@ kubectl get service --namespace ingress-nginx my-ingress-nginx-controller --outp
 kubectl --namespace ingress-nginx get services -o wide -w my-ingress-nginx-controller
 
 # create ingress resource (mapping)
+# from k8s_manifests folder
 kubectl apply -f influxdb-ingress.yaml
 kubectl create namespace influxdb
 
@@ -228,5 +248,11 @@ sudo certbot certonly --standalone -d mqtt.akos-demo.com -d www.mqttt.akos-demo.
 
 sudo pip3 install Adafruit_DHT paho-mqtt
 
+# Let's encrypt with cert-manager
+# see in k8s-manifests/cert-manager-demo
+
+
 # TODO
 MQTT mapping to K8s service directly
+
+
