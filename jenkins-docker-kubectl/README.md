@@ -81,3 +81,10 @@ https://github.com/cirolini/Docker-Flask-uWSGI
 
 And here have a tutorial to implement this case:
 https://medium.com/@cirolini/entrega-continua-com-kubernetes-e-jenkins-84bd9834a749
+
+
+## my notes
+docker build -t jenkins-cicd .
+docker tag jenkins-cicd:latest akosbodor/jenkins-cicd:latest
+docker login
+docker push akosbodor/jenkins-cicd:latest
