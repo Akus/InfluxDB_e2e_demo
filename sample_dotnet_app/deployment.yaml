@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: csharp-microservice
-        image: your-dockerhub-username/csharp-microservice:latest
+        image: akosbodor/csharp-microservice:latest
         ports:
         - containerPort: 80
 ---

@@ -24,6 +24,8 @@ kubectl describe deployments --namespace=devops-tools
 kubectl -n jenkins port-forward <pod_name> 8080:8080
 kubectl port-forward jenkins-6846f7864d-w68vh 8080:8080 -n devops-tools
 
+# app in sample_dotnet_app
+
 # AWS ALB ingress:
 kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
 eksctl utils associate-iam-oidc-provider --region <region> --cluster <cluster-name> --approve
