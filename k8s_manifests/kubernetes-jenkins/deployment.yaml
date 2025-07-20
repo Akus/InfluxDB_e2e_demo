@@ -13,6 +13,8 @@ spec:
       labels:
         app: jenkins-server
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: ip-10-0-1-210.eu-central-1.compute.internal    
       securityContext:
             fsGroup: 1000 
             runAsUser: 1000
