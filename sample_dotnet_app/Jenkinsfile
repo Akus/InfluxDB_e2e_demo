@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+        image 'mcr.microsoft.com/dotnet/sdk:6.0'
+        }
+    }    
     environment {
         DOCKER_IMAGE = "akosbodor/csharp-microservice:latest"
         KUBE_CONFIG = credentials('EKS_kubeconfig') // if using Jenkins credentials for kubeconfig
