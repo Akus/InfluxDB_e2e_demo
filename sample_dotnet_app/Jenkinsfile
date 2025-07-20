@@ -2,7 +2,7 @@ pipeline {
     agent any    
     environment {
         DOCKER_IMAGE = "akosbodor/csharp-microservice:latest"
-        KUBE_CONFIG = credentials('EKS_kubeconfig') // if using Jenkins credentials for kubeconfig
+        KUBE_CONFIG = credentials('eks_kubeconfig') // if using Jenkins credentials for kubeconfig
     }
     stages {
         stage('Install kubectl') {
@@ -49,7 +49,7 @@ pipeline {
         }
         stage('Deploy to EKS') {
             steps {
-                withCredentials([file(credentialsId: 'EKS_kubeconfig', variable: 'KUBECONFIG')]) {
+                withCredentials([file(credentialsId: 'eks_kubeconfig', variable: 'KUBECONFIG')]) {
                     sh '''
                     kubectl apply -f deployment.yaml
                     '''
