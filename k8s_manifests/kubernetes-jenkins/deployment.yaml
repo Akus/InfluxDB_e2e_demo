@@ -19,7 +19,7 @@ spec:
       serviceAccountName: jenkins-admin
       containers:
         - name: jenkins
-          image: jamesdbloom/jenkins-jnlp-kubectl:latest
+          image: jenkins/jenkins:lts
           resources:
             limits:
               memory: "2Gi"
