@@ -1,63 +1,60 @@
 pipeline {
     agent {
-        docker {
-        image 'mcr.microsoft.com/dotnet/sdk:6.0'
+        kubernetes {
+        yaml """
+    apiVersion: v1
+    kind: Pod
+    spec:
+    containers:
+    - name: kaniko
+        image: gcr.io/kaniko-project/executor:v1.22.0
+        command:
+        - cat
+        tty: true
+        volumeMounts:
+        - name: kaniko-secret
+        mountPath: /kaniko/.docker
+    volumes:
+    - name: kaniko-secret
+        secret:
+        secretName: regcred
+    """
         }
-    }    
+    }
     environment {
         DOCKER_IMAGE = "akosbodor/csharp-microservice:latest"
-        KUBE_CONFIG = credentials('EKS_kubeconfig') // if using Jenkins credentials for kubeconfig
     }
     stages {
-        stage('Install kubectl') {
-            steps {
-                sh '''
-                curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-                chmod +x kubectl
-                mkdir -p $HOME/bin
-                mv kubectl $HOME/bin/
-                export PATH=$HOME/bin:$PATH
-                kubectl version --client
-                '''
-            }
-        }        
-        stage('Check kubectl') {
-            steps {
-                sh '''
-                export PATH=$HOME/bin:$PATH
-                kubectl version --client
-                '''                
-            }
-        }        
+
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    docker.build(DOCKER_IMAGE)
-                }
+        stage('Build and Push with Kaniko') {
+        steps {
+            withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
+                                
+            container('kaniko') {
+            sh '''
+                /kaniko/executor --dockerfile=Dockerfile --context=. --destination=$DOCKER_IMAGE
+                /kaniko/executor --dockerfile=./Dockerfile --context=$(pwd) --destination=akosbodor/csharp-microservice:latest
             }
+      }
         }
-        stage('Push Docker Image') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
-                    sh """
-                    echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
-                    docker push $DOCKER_IMAGE
-                    """
-                }
-            }
         }
         stage('Deploy to EKS') {
             steps {
                 withCredentials([file(credentialsId: 'EKS_kubeconfig', variable: 'KUBECONFIG')]) {
                     sh '''
+                    // Ensure deployment.yaml exists before applying
+                    sh '''
+                    if [ ! -f deployment.yaml ]; then
+                        echo "Error: deployment.yaml not found in workspace."
+                        exit 1
+                    fi
                     kubectl apply -f deployment.yaml
                     '''
-                }
             }
         }
     }
