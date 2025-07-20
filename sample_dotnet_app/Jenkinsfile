@@ -4,27 +4,7 @@ pipeline {
         DOCKER_IMAGE = "akosbodor/csharp-microservice:latest"
         KUBE_CONFIG = credentials('eks_kubeconfig') // if using Jenkins credentials for kubeconfig
     }
-    stages {
-        stage('Install kubectl') {
-            steps {
-                sh '''
-                curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-                chmod +x kubectl
-                mkdir -p $HOME/bin
-                mv kubectl $HOME/bin/
-                export PATH=$HOME/bin:$PATH
-                kubectl version --client
-                '''
-            }
-        }        
-        stage('Check kubectl') {
-            steps {
-                sh '''
-                export PATH=$HOME/bin:$PATH
-                kubectl version --client
-                '''                
-            }
-        }        
+    stages { 
         stage('Checkout') {
             steps {
                 checkout scm
@@ -40,17 +20,19 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
-                    sh """
-                    echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
-                    docker push $DOCKER_IMAGE
-                    """
+                    bat '''
+                    docker login -u %DOCKERHUB_USER% -p %DOCKERHUB_PASS%
+                    docker tag %DOCKER_IMAGE% %DOCKER_IMAGE%
+                    docker push %DOCKER_IMAGE%
+                    '''
                 }
             }
         }
         stage('Deploy to EKS') {
             steps {
                 withCredentials([file(credentialsId: 'eks_kubeconfig', variable: 'KUBECONFIG')]) {
-                    sh '''
+                    bat '''
+                    kubectl version
                     kubectl apply -f deployment.yaml
                     '''
                 }
