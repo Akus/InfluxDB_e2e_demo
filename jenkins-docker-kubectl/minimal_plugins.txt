@@ -1,0 +1,22 @@
+# Essentials
+credentials
+credentials-binding
+git
+github
+github-branch-source
+docker-commons
+docker-workflow
+matrix-auth
+pipeline-model-definition
+pipeline-stage-view
+workflow-aggregator
+
+# EKS/K8s
+kubernetes
+kubernetes-cli
+
+# Optional/Quality of Life
+email-ext
+ansicolor
+blueocean
+ws-cleanup
