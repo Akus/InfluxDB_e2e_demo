@@ -5,9 +5,24 @@ pipeline {
         KUBE_CONFIG = credentials('EKS_kubeconfig') // if using Jenkins credentials for kubeconfig
     }
     stages {
+        stage('Install kubectl') {
+            steps {
+                sh '''
+                curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+                chmod +x kubectl
+                mkdir -p $HOME/bin
+                mv kubectl $HOME/bin/
+                export PATH=$HOME/bin:$PATH
+                kubectl version --client
+                '''
+            }
+        }        
         stage('Check kubectl') {
             steps {
-                sh 'kubectl version --client'
+                sh '''
+                export PATH=$HOME/bin:$PATH
+                kubectl version --client
+                '''                
             }
         }        
         stage('Checkout') {
