@@ -1,20 +1,13 @@
-ace-editor
-ant
-antisamy-markup-formatter
-apache-httpcomponents-client-4-api
-authentication-tokens
-bouncycastle-api
-branch-api
-build-timeout
-cloudbees-folder
-command-launcher
+# Core Jenkins Plugins for Modern CI/CD with GitHub, DockerHub, EKS, and .NET
+
+# Credentials and Security
 credentials
 credentials-binding
-display-url-api
-docker-commons
-docker-workflow
-durable-task
-email-ext
+plain-credentials
+ssh-credentials
+matrix-auth
+
+# Git and GitHub Integration
 git
 git-client
 git-server
@@ -22,20 +15,27 @@ github
 github-api
 github-branch-source
 github-organization-folder
-gradle
-handlebars
-icon-shim
-jackson2-api
-jquery-detached
-jsch
-junit
-ldap
-mailer
-mapdb-api
-matrix-auth
-matrix-project
-pam-auth
-plain-credentials
+
+# Docker Support
+docker-commons
+docker-workflow
+
+# Kubernetes/EKS Support
+kubernetes
+kubernetes-cli
+
+# Pipeline and Workflow
+workflow-aggregator
+workflow-api
+workflow-basic-steps
+workflow-cps
+workflow-cps-global-lib
+workflow-durable-task-step
+workflow-job
+workflow-multibranch
+workflow-scm-step
+workflow-step-api
+workflow-support
 pipeline-build-step
 pipeline-github-lib
 pipeline-graph-analysis
@@ -49,34 +49,22 @@ pipeline-rest-api
 pipeline-stage-step
 pipeline-stage-tags-metadata
 pipeline-stage-view
+
+# Utility and Quality of Life
+build-timeout
+cloudbees-folder
+display-url-api
+durable-task
+email-ext
+junit
 resource-disposer
 scm-api
 script-security
-ssh-credentials
-ssh-slaves
 structs
-subversion
 timestamper
 token-macro
-workflow-aggregator
-workflow-api
-workflow-basic-steps
-workflow-cps
-workflow-cps-global-lib
-workflow-durable-task-step
-workflow-job
-workflow-multibranch
-workflow-scm-step
-workflow-step-api
-workflow-support
 ws-cleanup
-
-# EKS/K8s
-kubernetes
-kubernetes-cli
-
-# Optional/Quality of Life
-email-ext
 ansicolor
+
+# Optional: Modern UI
 blueocean
-ws-cleanup
