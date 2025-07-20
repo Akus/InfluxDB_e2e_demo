@@ -34,7 +34,6 @@ mailer
 mapdb-api
 matrix-auth
 matrix-project
-momentjs
 pam-auth
 plain-credentials
 pipeline-build-step
