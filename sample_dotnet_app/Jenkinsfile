@@ -31,7 +31,10 @@ pipeline {
         }
         stage('Deploy to EKS') {
             steps {
-                withCredentials([file(credentialsId: 'eks_kubeconfig', variable: 'KUBECONFIG')]) {
+                withCredentials([
+                    string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
                     bat '''
                     cd sample_dotnet_app
                     aws eks update-kubeconfig --region eu-central-1 --name akos-influxdb-eks-development
