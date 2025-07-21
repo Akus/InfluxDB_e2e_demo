@@ -16,16 +16,21 @@ spec:
       - name: csharp-microservice
         image: akosbodor/csharp-microservice:latest
         ports:
-        - containerPort: 80
+        - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: csharp-microservice-service
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:eu-central-1:823514127427:certificate/db8716f8-7091-41c1-bed9-fac0f3a9c55b
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"  
 spec:
   type: LoadBalancer
   ports:
-    - port: 80
-      targetPort: 80
+    - port: 443
+      protocol: TCP
+      targetPort: 8080
   selector:
     app: csharp-microservice
