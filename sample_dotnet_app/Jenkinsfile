@@ -38,7 +38,7 @@ pipeline {
                     bat '''
                     cd sample_dotnet_app
                     aws eks update-kubeconfig --region eu-central-1 --name akos-influxdb-eks-development
-                    kubectl config use-context arn:aws:eks:eu-central-1:123456789012:cluster/akos-influxdb-eks-development
+                    kubectl config use-context arn:aws:eks:eu-central-1:823514127427:cluster/akos-influxdb-eks-development
                     kubectl get nodes
                     kubectl version
                     kubectl apply -f deployment.yaml
