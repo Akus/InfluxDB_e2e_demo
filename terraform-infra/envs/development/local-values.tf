@@ -31,7 +31,7 @@ locals {
   eks_worker_node_instance_type = "t3.medium"
   eks_cluster_desired_size = 2
   eks_cluster_min_size = 2
-  eks_cluster_max_size = 2
+  eks_cluster_max_size = 4
 
   argocd_helm_chart_version = "5.27.1"
 }
