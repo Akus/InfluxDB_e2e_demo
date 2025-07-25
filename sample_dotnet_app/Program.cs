@@ -6,13 +6,14 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello from C# microservice!");
+var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Unknown";
 
-// New endpoint to return version
+app.MapGet("/", () => $"Hello from C# microservice version {version}!");
+
 app.MapGet("/version", () => 
 {
-    var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Unknown";
-    return $"Version: {version}";
+    var versionLocal = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Unknown";
+    return $"Version: {versionLocal}";
 });
 
 app.Run();
