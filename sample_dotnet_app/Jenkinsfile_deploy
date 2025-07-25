@@ -1,8 +1,12 @@
 pipeline {
     agent any    
+    parameters {
+        string(name: 'DOCKER_IMAGE_TAG', defaultValue: 'latest', description: 'Docker image tag to deploy')
+    }
     environment {
-        DOCKER_IMAGE = "akosbodor/csharp-microservice:latest"
-        KUBE_CONFIG = credentials('eks_kubeconfig') // if using Jenkins credentials for kubeconfig
+        DOCKER_IMAGE_NAME = "akosbodor/csharp-microservice"
+        DOCKER_IMAGE = "${DOCKER_IMAGE_NAME}:${params.DOCKER_IMAGE_TAG}"
+        KUBE_CONFIG = credentials('eks_kubeconfig')
     }
     stages {
         stage('Deploy to EKS') {
@@ -18,6 +22,7 @@ pipeline {
                     kubectl get nodes
                     kubectl version
                     kubectl apply -f deployment.yaml
+                    kubectl set image deployment/csharp-microservice csharp-microservice=%DOCKER_IMAGE%
                     '''
                 }
             }

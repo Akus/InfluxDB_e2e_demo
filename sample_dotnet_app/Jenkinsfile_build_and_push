@@ -1,7 +1,12 @@
 pipeline {
-    agent any    
+    agent any
+    parameters {
+        string(name: 'IMAGE_TAG', defaultValue: 'latest', description: 'Docker image tag to use')
+    }    
     environment {
-        DOCKER_IMAGE = "akosbodor/csharp-microservice:latest"
+        // Set the Docker image tag via Jenkins property, default to "latest"
+        DOCKER_IMAGE_TAG = "${params.IMAGE_TAG ?: 'latest'}"
+        DOCKER_IMAGE = "akosbodor/csharp-microservice:${DOCKER_IMAGE_TAG}"
         KUBE_CONFIG = credentials('eks_kubeconfig') // if using Jenkins credentials for kubeconfig
     }
     stages { 
@@ -29,4 +34,5 @@ pipeline {
                 }
             }
         }
+    }
 }
