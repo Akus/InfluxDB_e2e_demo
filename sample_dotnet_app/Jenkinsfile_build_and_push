@@ -1,11 +1,6 @@
 pipeline {
     agent any
-    parameters {
-        string(name: 'IMAGE_TAG', defaultValue: 'latest', description: 'Docker image tag to use')
-    }        
-    environment {
-        KUBE_CONFIG = credentials('eks_kubeconfig') // if using Jenkins credentials for kubeconfig
-    }
+
     stages {
         stage('Checkout') {
             steps {
